@@ -1,0 +1,13 @@
+NavBar
+Home
+Carrossel de cursos
+Cards de cursos
+Novidades
+Diferencial
+Relatos/Comentários
+Parceiros
+Contatos
+Escolas disponíveis
+Planos disponíveis
+Dúvidas frequentes
+Footer
