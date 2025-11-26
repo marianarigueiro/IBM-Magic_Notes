@@ -1,9 +1,5 @@
 # IBM-Magic_Notes
 
-<p align="center">
-  <img src="logo.png" alt="Logo Magic Notes" width="200" style="border: 4px solid #ffff; border-radius: 10px;"/>
-</p>
-
 <h1 align="center">Magic Notes</h1>
 
 
