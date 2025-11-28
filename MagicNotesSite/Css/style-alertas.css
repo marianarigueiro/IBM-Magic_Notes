@@ -1,0 +1,286 @@
+/* TOGGLE SECTION */
+.toggle-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  background: #f8f9fa;
+  padding: 8px;
+  border-radius: 12px;
+  max-width: 400px;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #666;
+  font-family: 'Arimo', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn.active {
+  background: #7f2b28;
+  color: white;
+  box-shadow: 0 2px 8px rgba(127, 43, 40, 0.3);
+}
+
+.toggle-btn:hover:not(.active) {
+  background: rgba(127, 43, 40, 0.1);
+  color: #7f2b28;
+}
+
+/* STATUS CARDS */
+.status-cards-horizontal {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.status-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.card-upcoming::before {
+  background: #ffa726;
+}
+
+.card-pending::before {
+  background: #7f2b28;
+}
+
+.card-completed::before {
+  background: #4caf50;
+}
+
+.card-overdue::before {
+  background: #f44336;
+}
+
+.status-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+.status-icon {
+  font-size: 1.5rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+}
+
+.card-upcoming .status-icon {
+  background: #ffa726;
+}
+
+.card-pending .status-icon {
+  background: #7f2b28;
+}
+
+.card-completed .status-icon {
+  background: #4caf50;
+}
+
+.card-overdue .status-icon {
+  background: #f44336;
+}
+
+.status-info h3 {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-count {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2d2d2d;
+}
+
+/* DISCIPLINE CARDS */
+.content-section {
+  margin-top: 20px;
+}
+
+.disciplina-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.disciplina-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.disciplina-header h2 {
+  font-size: 1.2rem;
+  color: #7f2b28;
+  font-weight: 600;
+  margin: 0;
+}
+
+.disciplina-badge {
+  font-size: 0.8rem;
+  color: #7f2b28;
+  font-weight: 600;
+  background: rgba(127, 43, 40, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+/* DISCIPLINE LIST */
+.disciplina-list {
+  padding: 0;
+}
+
+.disciplina-item {
+  padding: 18px 25px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.disciplina-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.item-overdue::before {
+  background: #f44336;
+}
+
+.item-pending::before {
+  background: #7f2b28;
+}
+
+.item-discipline::before {
+  background: #4caf50;
+}
+
+.disciplina-item:last-child {
+  border-bottom: none;
+}
+
+.disciplina-item:hover {
+  background: #fafafa;
+}
+
+.disciplina-info h3 {
+  font-size: 0.95rem;
+  color: #2d2d2d;
+  margin-bottom: 6px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* STATUS DAS ATIVIDADES */
+.atividade-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-overdue {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+.status-pending {
+  background: rgba(127, 43, 40, 0.1);
+  color: #7f2b28;
+}
+
+.status-discipline {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+/* RESPONSIVIDADE PARA ALERTAS */
+@media (max-width: 768px) {
+  .toggle-section {
+    max-width: 100%;
+  }
+  
+  .status-cards-horizontal {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .status-card {
+    padding: 15px;
+  }
+  
+  .disciplina-header {
+    padding: 15px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .disciplina-item {
+    padding: 15px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-cards-horizontal {
+    grid-template-columns: 1fr;
+  }
+  
+  .status-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .toggle-btn {
+    padding: 10px 16px;
+    font-size: 0.8rem;
+  }
+}

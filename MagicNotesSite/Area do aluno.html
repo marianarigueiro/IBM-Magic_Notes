@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Área do Aluno - Magic Notes</title>
+  <link rel="stylesheet" href="css/style-aluno.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <style>
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
+    }
+    
+    .loading-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #93221F;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading-overlay p {
+      color: #93221F;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <p>Carregando área do aluno...</p>
+  </div>
+
+  <!-- NAVBAR -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-links-group left-links">
+        <a href="#" class="menu-toggle"><img src="imagens/menu.png" alt="Ícone do Menu"></a>
+      </div>
+      <div class="logo">
+        <a href="home.html"><img src="imagens/logo.png" alt="Logo Magic Notes"></a>
+      </div>
+      <div class="nav-links-group right-links">
+        <a href="#" id="userProfileBtn"><img src="imagens/user.png" alt="Ícone de Usuário"></a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="dashboard-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="user-info">
+        <div class="user-avatar">
+          <img src="imagens/perfil-foto.png" alt="Foto do usuário" class="user-avatar-img" id="userAvatar">
+        </div>
+        <div class="user-details">
+          <h3 id="userName">Carregando...</h3>
+          <p><i class="fas fa-graduation-cap"></i> Curso: <span id="userCourse">Carregando...</span></p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="active"><a href="Area do aluno.html"><i class="fas fa-house"></i> Início</a></li>
+          <li><a href="Alertas.html"><i class="fas fa-bell"></i> Alertas</a></li>
+          <li><a href="Aulas digitais.html"><i class="fas fa-desktop"></i> Aulas Digitais</a></li>
+          <li><a href="Material.html"><i class="fas fa-file-lines"></i> Materiais</a></li>
+          <li><a href="Comunicados.html"><i class="fas fa-bullhorn"></i> Comunicados</a></li>
+          <li><a href="Agenda.html"><i class="fas fa-calendar-days"></i> Agenda Online</a></li>
+          <li><a href="https://wa.me/5511932344867?text=Nome:%0AEmail:%0AD%C3%BAvida:" target="_blank">
+            <i class="fas fa-circle-question"></i> Ajuda
+            </a>
+          <li><a href="configuracoes.html"><i class="fas fa-gear"></i> Configurações</a></li>
+          <li class="logout"><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+        </ul>
+      </nav>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <div class="welcome-section">
+        <h1>Área do Aluno</h1>
+        <p class="subtitle">Bem-vindo de volta, <span id="welcomeName">Aluno</span>!</p>
+      </div>
+
+      <div class="cards-grid">
+        <!-- Maestro Card -->
+        <div class="resource-card">
+          <div class="card-header">
+            <span class="card-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+            <h3>Maestro</h3>
+          </div>
+          <p>Atividades e materiais compartilhados pelos seus professores.</p>
+          <button class="card-btn" onclick="window.location.href='alertas.html'">Acessar</button>
+        </div>
+
+        <!-- Material Card -->
+        <div class="resource-card">
+          <div class="card-header">
+            <span class="card-icon"><i class="fas fa-file-lines"></i></span>
+            <h3>Material</h3>
+          </div>
+          <p>Materiais de aprendizagem com instrumentos digitais e apostilas.</p>
+          <button class="card-btn" onclick="window.location.href='material.html'">Acessar</button>
+        </div>
+
+        <!-- Digital Classes Card -->
+        <div class="resource-card">
+          <div class="card-header">
+            <span class="card-icon"><i class="fas fa-desktop"></i></span>
+            <h3>Aulas Digitais</h3>
+          </div>
+          <p>Aulas online disponibilizadas pelos seus instrutores.</p>
+          <button class="card-btn" onclick="window.location.href='Aulas digitais.html'">Acessar</button>
+        </div>
+
+        <!-- Announcements Card -->
+        <div class="resource-card">
+          <div class="card-header">
+            <span class="card-icon"><i class="fas fa-bullhorn"></i></span>
+            <h3>Comunicados</h3>
+          </div>
+          <p>Novidades e avisos compartilhados pela coordenação.</p>
+          <button class="card-btn" onclick="window.location.href='comunicados.html'">Acessar</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Proteger a página e carregar dados do usuário
+    async function initStudentArea() {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      
+      try {
+        // Verificar autenticação
+        const isAuthenticated = await AuthManager.requireAuth();
+        
+        if (!isAuthenticated) {
+          return; // requireAuth já redireciona
+        }
+        
+        // Carregar dados
+        const user = AuthManager.getUser();
+        
+        if (user) {
+          document.getElementById('userName').textContent = user.nome || 'Usuário';
+          
+          const firstName = user.nome ? user.nome.split(' ')[0] : 'Aluno';
+          document.getElementById('welcomeName').textContent = firstName;
+          
+          if (user.curso && user.curso.instrumento) {
+            document.getElementById('userCourse').textContent = user.curso.instrumento;
+          } else {
+            document.getElementById('userCourse').textContent = 'Não matriculado';
+          }
+          
+          if (user.foto_perfil) {
+            document.getElementById('userAvatar').src = user.foto_perfil;
+          }
+        }
+        
+      } catch (error) {
+        console.error('Erro ao inicializar área do aluno:', error);
+        alert('Erro ao carregar dados. Faça login novamente.');
+        AuthManager.logout();
+      } finally {
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+        }, 500);
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      initStudentArea();
+
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (confirm('Deseja realmente sair?')) {
+            AuthManager.logout();
+          }
+        });
+      }
+      
+      const userProfileBtn = document.getElementById('userProfileBtn');
+      if (userProfileBtn) {
+        userProfileBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'configuracoes.html';
+        });
+      }
+    });
+  </script>
+  
+  <script src="Javascript/auth-manager.js"></script>
+  <script src="Javascript/script-aluno.js"></script>
+</body>
+</html>

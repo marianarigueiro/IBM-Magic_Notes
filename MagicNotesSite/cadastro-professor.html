@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro Professor - Magic Notes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #93221F 0%, #c2312c 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 100%;
+      padding: 40px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header i {
+      font-size: 50px;
+      color: #93221F;
+      margin-bottom: 15px;
+    }
+
+    .header h1 {
+      color: #93221F;
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .alert.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.3s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #93221F;
+      box-shadow: 0 0 0 3px rgba(147, 34, 31, 0.1);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: #93221F;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background: #c2312c;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(147, 34, 31, 0.3);
+    }
+
+    .btn-submit:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .links a {
+      color: #93221F;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #93221F;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    .loading-spinner.show {
+      display: block;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <i class="fas fa-user-plus"></i>
+      <h1>Cadastro de Professor</h1>
+      <p>Preencha os dados para criar sua conta</p>
+    </div>
+
+    <div id="alertMessage" class="alert"></div>
+
+    <form id="cadastroForm">
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+      </div>
+
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" id="email" placeholder="Digite seu e-mail" required>
+      </div>
+
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="tel" id="telefone" placeholder="(00) 00000-0000" required>
+      </div>
+
+      <div class="form-group">
+        <label>Disciplina/Instrumento</label>
+        <input type="text" id="disciplina" placeholder="Ex: Guitarra, Piano, Teoria Musical" required>
+      </div>
+
+      <div class="form-group">
+        <label>Curso</label>
+        <select id="curso_id" required>
+          <option value="">Carregando cursos...</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="senha" placeholder="Mínimo 6 caracteres" required>
+      </div>
+
+      <div class="form-group">
+        <label>Confirmar Senha</label>
+        <input type="password" id="confirmarSenha" placeholder="Digite a senha novamente" required>
+      </div>
+
+      <div class="loading-spinner" id="loadingSpinner"></div>
+      <button type="submit" class="btn-submit" id="btnSubmit">Cadastrar</button>
+    </form>
+
+    <div class="links">
+      <p>Já tem conta? <a href="login-professor.html">Faça login</a></p>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost/MagicNotesApi/api';
+    
+    const cadastroForm = document.getElementById('cadastroForm');
+    const alertMessage = document.getElementById('alertMessage');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const btnSubmit = document.getElementById('btnSubmit');
+
+    async function carregarCursos() {
+      try {
+        const response = await fetch(`${API_URL}/cursos/list.php`);
+        const cursos = await response.json();
+        
+        const select = document.getElementById('curso_id');
+        select.innerHTML = '<option value="">Selecione o curso</option>';
+        
+        cursos.forEach(curso => {
+          const option = document.createElement('option');
+          option.value = curso.id;
+          option.textContent = `${curso.nome} - ${curso.instrumento}`;
+          select.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Erro ao carregar cursos:', error);
+        showAlert('Erro ao carregar cursos', 'error');
+      }
+    }
+
+    document.getElementById('telefone').addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length <= 11) {
+        value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+        value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+      }
+      e.target.value = value;
+    });
+
+    function showAlert(message, type) {
+      alertMessage.textContent = message;
+      alertMessage.className = `alert ${type}`;
+      alertMessage.style.display = 'block';
+      
+      setTimeout(() => {
+        alertMessage.style.display = 'none';
+      }, 5000);
+    }
+
+    cadastroForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const disciplina = document.getElementById('disciplina').value.trim();
+      const curso_id = parseInt(document.getElementById('curso_id').value);
+      const senha = document.getElementById('senha').value;
+      const confirmarSenha = document.getElementById('confirmarSenha').value;
+
+      if (!curso_id) {
+        showAlert('Selecione um curso', 'error');
+        return;
+      }
+
+      if (senha !== confirmarSenha) {
+        showAlert('As senhas não coincidem', 'error');
+        return;
+      }
+
+      if (senha.length < 6) {
+        showAlert('A senha deve ter no mínimo 6 caracteres', 'error');
+        return;
+      }
+
+      btnSubmit.disabled = true;
+      loadingSpinner.classList.add('show');
+      alertMessage.style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_URL}/professor/cadastrar.php`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nome,
+            email,
+            telefone,
+            disciplina,
+            curso_id,
+            senha
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          showAlert('Cadastro realizado com sucesso! Redirecionando...', 'success');
+          
+          cadastroForm.reset();
+          
+          setTimeout(() => {
+            window.location.href = 'login-professor.html';
+          }, 2000);
+          
+        } else {
+          showAlert(data.message || 'Erro ao realizar cadastro', 'error');
+        }
+
+      } catch (error) {
+        console.error('Erro:', error);
+        showAlert('Erro ao conectar com o servidor', 'error');
+      } finally {
+        btnSubmit.disabled = false;
+        loadingSpinner.classList.remove('show');
+      }
+    });
+
+    carregarCursos();
+  </script>
+</body>
+</html>

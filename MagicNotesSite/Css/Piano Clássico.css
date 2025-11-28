@@ -1,0 +1,164 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: white;
+    overflow-x: hidden;
+}
+
+main a{
+    text-decoration: none;
+}
+
+main h1  {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: rgb(147, 34, 31);
+    font-weight: bold;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-size: 3rem;
+    font-family: "Hammersmith One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+main h2  {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: rgb(147, 34, 31);
+    font-family: "Londrina Shadow", sans-serif;
+    font-weight: 400;
+    font-style:normal;
+    font-size: 4rem;
+}
+
+main p {
+    color: rgb(0, 0, 0);
+    align-items:normal;
+    justify-content:center;
+    text-align: justify;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style:italic;
+    font-size: 1.500rem;
+}
+
+#lista {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.item {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+
+.musicn {
+    margin-bottom: 10px;
+    width: 30px;
+}
+
+.pianot {
+    display: inline-block;
+    color: #000;
+    margin: 2%;
+}
+
+h1.pianot {
+    margin-bottom: 100px;
+}
+
+main ul h1 {
+    color: #000;
+    text-align: left;
+} 
+
+.material {
+    display: inline-block;
+}
+
+main li a {
+    align-items:normal;
+    justify-content:center;
+    text-align: justify;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style:italic;
+    font-size: 1.500rem;
+    color: #000;
+}
+
+button.material a {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    text-decoration: none;
+    font-size: 26px;
+    color: white;
+}
+
+h1.pianoa {
+    color: black;
+}
+
+p.pianoa {
+    margin: 20px;
+    bottom: 0px;
+    margin-bottom: 0px;
+    margin-right: 20px;
+}
+
+img.pianoa {
+    margin-left: 1 rem;
+}
+
+ul.material , table {
+    margin-left: 20px;
+}
+
+button.material {
+    background-color: #93221F;
+    border-radius: 50px;
+    width: 16rem;
+    height: 5rem;
+    border: none;
+    border: none;
+    float:right;
+    margin-top: 6rem;
+    margin-right: 20px;
+}
+
+a#botaom {
+    align-items:normal;
+    justify-content:center;
+    text-align: justify;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 26px;
+    
+}
+
+button .material:hover {
+    box-shadow: 2px 2px 20px #000000;
+    transition: 0.3s;
+}
+
+#carouselExampleAutoplaying {
+    margin-top: 2rem;
+    z-index: -1;
+}
+
+nav {
+    z-index: 1;
+}
+
+main ul{
+	list-style: inherit;
+}

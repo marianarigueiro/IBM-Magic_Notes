@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Magic Notes</title>
+  <link rel="stylesheet" href="css/style-login.css" />
+  <link rel="stylesheet" href="Css/Nav-Bar index.css" />
+  <style>
+    .alert-message {
+      display: none;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      animation: slideDown 0.3s ease;
+    }
+    
+    .alert-message.show {
+      display: block;
+    }
+    
+    .alert-message.error {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+    
+    .alert-message.success {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .btn-login:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #93221F;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    
+    .loading-spinner.show {
+      display: block;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="mobile-menu">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+      <ul class="nav-list">
+        <li><a href="Inicio.html">Início</a></li>
+        <li><a href="Cadastro do Aluno.html">Matrícula</a></li>
+        <li><a href="Area do aluno.html">Área do aluno</a></li>
+        <li><a href="#Parceiros">Parceiros</a></li>
+        <li><a href="#Cursos-href">Cursos</a></li>
+        <li><a href="https://wa.me/5511932344867?text=Nome:%0AEmail:">Contatos</a></li>
+        <li><a href="https://wa.me/5511932344867?text=Nome:%0AEmail:%0AD%C3%BAvida:">Suporte</a></li>
+      </ul>
+      <a class="logo" href="Inicio.html"><img src="Imagens/Logo_branco.png" alt="Logo" class="logo_img_branco"></a>
+      <a class="conta" href="Login.html"><img src="Imagens/user-branco.png" alt="conta" class="conta_img_branco"></a>
+    </nav>
+  </header>
+  <script src="Javascript/mobile-navbar.js"></script>
+  <br><br><br>
+  
+  <div class="container">
+    <!-- RED BLOCK -->
+    <section class="welcome">
+      <h2>Welcome Back</h2>
+      <p class="subtitle white-text">Not a student yet?</p>
+      <p class="text-small">Enroll now and get access to all platform features!</p>
+
+      <div class="welcome-buttons">
+        <button id="matricule">Enroll Now</button>
+        <button id="professor1">Teacher</button>
+        <button id="Aluno">Student</button>
+      </div>
+    </section>
+
+    <!-- WHITE BLOCK -->
+    <section class="login-form">
+      <div class="logo-center">
+        <img src="imagens/logo.png" alt="Magic Notes Logo" />
+      </div>
+
+      <h3>Sign In</h3>
+      <span class="subtitle">Sign in with email and password</span>
+
+      <!-- Alert Message -->
+      <div id="alertMessage" class="alert-message"></div>
+
+      <form id="loginForm">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+
+        <label for="password">Password</label>
+        <div class="password-field">
+          <input type="password" id="password" placeholder="Enter your password" required />
+          <button type="button" class="toggle-password" id="togglePassword" title="Show password">👁️</button>
+        </div>
+
+        <div class="options">
+          <div class="left-options">
+            <input type="checkbox" id="save-password" />
+            <label for="save-password" class="inline-label">Remember password</label>
+            <span class="separator">|</span>
+            <span class="forgot-link" id="forgotPassword">Forgot Password?</span> 
+          </div>
+        </div>
+
+        <div class="loading-spinner" id="loadingSpinner"></div>
+        
+        <button type="submit" class="btn-login" id="btnLogin">Sign In</button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    // Configuração da API
+    const API_URL = 'http://localhost/MagicNotesApi/api';
+    
+    // Elementos do DOM
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const btnLogin = document.getElementById('btnLogin');
+    const alertMessage = document.getElementById('alertMessage');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const togglePassword = document.getElementById('togglePassword');
+    const forgotPassword = document.getElementById('forgotPassword');
+
+    // Mostrar/Ocultar senha
+    togglePassword.addEventListener('click', () => {
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+      togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+      togglePassword.title = type === 'password' ? 'Mostrar senha' : 'Ocultar senha';
+    });
+
+    // Recuperação de senha
+    forgotPassword.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      if (email) {
+        showAlert(`Link de recuperação será enviado para: ${email}`, 'success');
+      } else {
+        showAlert('Por favor, digite seu e-mail primeiro.', 'error');
+        emailInput.focus();
+      }
+    });
+
+    // Verificar se já está logado ao carregar a página
+    window.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('magic_notes_token');
+      if (token) {
+        // Validar token
+        validateToken(token);
+      }
+    });
+
+    // Função para validar token
+    async function validateToken(token) {
+      try {
+        const response = await fetch(`${API_URL}/user/validate.php`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            // Token válido, redirecionar para área do aluno
+            window.location.href = 'Area do aluno.html';
+          }
+        }
+      } catch (error) {
+        console.log('Token inválido ou expirado');
+      }
+    }
+
+    // Função para mostrar alertas
+    function showAlert(message, type) {
+      alertMessage.textContent = message;
+      alertMessage.className = `alert-message ${type} show`;
+      
+      // Auto-ocultar após 5 segundos
+      setTimeout(() => {
+        alertMessage.classList.remove('show');
+      }, 5000);
+    }
+
+    // Função para fazer login
+    async function handleLogin(e) {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      // Validações básicas
+      if (!email || !password) {
+        showAlert('Por favor, preencha todos os campos.', 'error');
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        showAlert('Por favor, digite um e-mail válido.', 'error');
+        return;
+      }
+
+      if (password.length < 6) {
+        showAlert('A senha deve ter no mínimo 6 caracteres.', 'error');
+        return;
+      }
+
+      // Desabilitar botão e mostrar loading
+      btnLogin.disabled = true;
+      loadingSpinner.classList.add('show');
+      alertMessage.classList.remove('show');
+
+      try {
+        const response = await fetch(`${API_URL}/user/login.php`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            senha: password
+          })
+        });
+
+        const data = await response.json();
+        console.log('Resposta do login:', data);
+
+        if (response.ok && data.success) {
+          // Login bem-sucedido
+          showAlert('✅ Login realizado com sucesso! Redirecionando...', 'success');
+          
+          // Salvar token e dados do usuário
+          localStorage.setItem('magic_notes_token', data.token);
+          localStorage.setItem('magic_notes_user', JSON.stringify(data.user));
+          
+          // Salvar senha se checkbox marcado
+          const savePassword = document.getElementById('save-password').checked;
+          if (savePassword) {
+            localStorage.setItem('magic_notes_remember', 'true');
+            localStorage.setItem('magic_notes_email', email);
+          } else {
+            localStorage.removeItem('magic_notes_remember');
+            localStorage.removeItem('magic_notes_email');
+          }
+          
+          // Redirecionar após 1 segundo
+          setTimeout(() => {
+            window.location.href = 'Area do aluno.html';
+          }, 1000);
+          
+        } else {
+          // Erro no login
+          showAlert(`❌ ${data.message || 'Email ou senha incorretos'}`, 'error');
+        }
+
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+        showAlert('❌ Erro ao conectar com o servidor. Verifique sua conexão.', 'error');
+      } finally {
+        // Reabilitar botão e ocultar loading
+        btnLogin.disabled = false;
+        loadingSpinner.classList.remove('show');
+      }
+    }
+
+    // Função para validar email
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    // Event listener do formulário
+    loginForm.addEventListener('submit', handleLogin);
+
+    // Carregar email salvo se existir
+    window.addEventListener('DOMContentLoaded', () => {
+      const remember = localStorage.getItem('magic_notes_remember');
+      const savedEmail = localStorage.getItem('magic_notes_email');
+      
+      if (remember === 'true' && savedEmail) {
+        emailInput.value = savedEmail;
+        document.getElementById('save-password').checked = true;
+      }
+    });
+
+    // Adicionar interação aos botões do bloco vermelho
+    document.getElementById('matricule').addEventListener('click', () => {
+      window.location.href = 'Cadastro do Aluno.html';
+    });
+
+    document.getElementById('professor1').addEventListener('click', () => {
+      window.location.href = 'login-professor.html';
+    });
+
+    document.getElementById('Aluno').addEventListener('click', () => {
+      showAlert('Por favor, faça login para acessar a área do aluno.', 'success');
+    });
+  </script>
+</body>
+</html>

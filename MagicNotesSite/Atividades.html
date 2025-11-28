@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Atividades - Magic Notes</title>
+
+    <link rel="stylesheet" href="css/style-aluno.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #93221F;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .header-section h1 {
+            font-size: 28px;
+            color: #93221F;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .activity-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #93221F;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            transition: 0.25s;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(147, 34, 31, 0.15);
+        }
+
+        .activity-card h3 {
+            margin-bottom: 8px;
+            color: #93221F;
+            font-size: 20px;
+        }
+
+        .activity-info {
+            color: #666;
+            font-size: 14px;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .activity-info i {
+            color: #93221F;
+            width: 20px;
+        }
+
+        .activity-description {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 6px;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .activity-status {
+            margin-top: 12px;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-pendente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-enviada {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-corrigida {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .activity-grade {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        .activity-feedback {
+            margin-top: 10px;
+            padding: 12px;
+            background: #e3f2fd;
+            border-radius: 6px;
+            color: #1565c0;
+            font-size: 14px;
+        }
+
+        .btn-enviar {
+            background: #93221F;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-enviar:hover {
+            background: #b72d29;
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 95%;
+            max-width: 520px;
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            transition: 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            color: #93221F;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: 0.3s;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #93221F;
+        }
+
+        .upload-area {
+            border: 2px dashed #93221F;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .upload-area:hover {
+            background: #f7f7f7;
+        }
+
+        .upload-area.dragover {
+            background: #fee;
+            border-color: #c2312c;
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: #93221F;
+            margin-bottom: 10px;
+        }
+
+        #fileName {
+            color: #444;
+            font-size: 14px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            word-break: break-all;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .activity-card {
+                padding: 15px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Carregando atividades...</p>
+    </div>
+
+    <header>
+        <nav class="navbar">
+            <div class="nav-links-group left-links">
+                <a href="#" class="menu-toggle">
+                    <img src="imagens/menu.png" alt="Menu">
+                </a>
+            </div>
+            <div class="logo">
+                <a href="home.html"><img src="imagens/logo.png" alt="Logo"></a>
+            </div>
+            <div class="nav-links-group right-links">
+                <a href="#" id="userProfileBtn">
+                    <img src="imagens/user.png" alt="Usuário">
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img id="userAvatar" src="imagens/perfil-foto.png" class="user-avatar-img">
+                </div>
+                <div class="user-details">
+                    <h3 id="userName">Carregando...</h3>
+                    <p><i class="fas fa-graduation-cap"></i> Curso: <span id="userCourse">Carregando...</span></p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="Area do aluno.html"><i class="fas fa-house"></i> Início</a></li>
+                    <li class="active"><a href="Alertas.html"><i class="fas fa-bell"></i> Alertas</a></li>
+                    <li><a href="Aulas digitais.html"><i class="fas fa-desktop"></i> Aulas Digitais</a></li>
+                    <li><a href="Material.html"><i class="fas fa-file-lines"></i> Materiais</a></li>
+                    <li><a href="Comunicados.html"><i class="fas fa-bullhorn"></i> Comunicados</a></li>
+                    <li><a href="Agenda.html"><i class="fas fa-calendar-days"></i> Agenda Online</a></li>
+                    <li><a href="ajuda.html"><i class="fas fa-circle-question"></i> Ajuda</a></li>
+                    <li><a href="configuracoes.html"><i class="fas fa-gear"></i> Configurações</a></li>
+                    <li class="logout"><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+
+            <div class="header-section">
+                <h1>Atividades</h1>
+                <p class="subtitle">Veja e responda às atividades enviadas pelos professores</p>
+            </div>
+
+            <div id="atividadesContainer"></div>
+
+        </main>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modalEnvio" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+
+            <h2>Enviar Atividade</h2>
+
+            <div class="form-group">
+                <label>Resposta (texto)</label>
+                <textarea id="respostaTexto" placeholder="Digite sua resposta aqui..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Ou envie um arquivo</label>
+                <div id="uploadArea" class="upload-area">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Clique ou arraste o arquivo aqui</p>
+                    <input type="file" id="fileInput" hidden>
+                </div>
+                <p id="fileName"></p>
+            </div>
+
+            <button class="btn-enviar" style="width:100%;" onclick="enviarResposta()">
+                <i class="fas fa-paper-plane"></i>
+                Enviar Resposta
+            </button>
+        </div>
+    </div>
+
+<script src="Javascript/auth-manager.js"></script>
+<script>
+    const API_URL = 'http://localhost/MagicNotesApi/api';
+    let usuarioData = null;
+    let atividadeSelecionada = null;
+    let arquivoSelecionado = null;
+
+    async function init() {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        
+        try {
+            const isAuth = await AuthManager.requireAuth();
+            if (!isAuth) return;
+
+            usuarioData = AuthManager.getUser();
+            if (usuarioData) {
+                document.getElementById('userName').textContent = usuarioData.nome || 'Usuário';
+                document.getElementById('userCourse').textContent = usuarioData.curso?.instrumento || 'Não informado';
+                if (usuarioData.foto_perfil) {
+                    document.getElementById('userAvatar').src = usuarioData.foto_perfil;
+                }
+            }
+
+            await carregarAtividades();
+        } catch (e) {
+            console.error('Erro:', e);
+            alert('Erro ao carregar dados. Faça login novamente.');
+            AuthManager.logout();
+        } finally {
+            setTimeout(() => {
+                loadingOverlay.classList.add('hidden');
+            }, 500);
+        }
+    }
+
+    async function carregarAtividades() {
+        try {
+            const response = await fetch(`${API_URL}/atividades/listar_aluno.php?usuario_id=${usuarioData.id}`);
+            
+            if (!response.ok) {
+                throw new Error('Erro ao buscar atividades');
+            }
+            
+            const atividades = await response.json();
+            const container = document.getElementById('atividadesContainer');
+
+            if (!Array.isArray(atividades) || atividades.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-tasks"></i>
+                        <h3>Nenhuma atividade disponível</h3>
+                        <p>Não há atividades cadastradas no momento.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = atividades.map(a => {
+                const dataEntrega = new Date(a.data_entrega);
+                const hoje = new Date();
+                const atrasada = !a.respondida && dataEntrega < hoje;
+                
+                let statusClass = 'status-pendente';
+                let statusText = '<i class="fas fa-clock"></i> Pendente';
+                let statusIcon = 'fa-clock';
+                
+                if (a.status_resposta === 'corrigida') {
+                    statusClass = 'status-corrigida';
+                    statusText = '<i class="fas fa-check-circle"></i> Corrigida';
+                } else if (a.status_resposta === 'enviada') {
+                    statusClass = 'status-enviada';
+                    statusText = '<i class="fas fa-paper-plane"></i> Enviada';
+                }
+
+                return `
+                    <div class="activity-card">
+                        <h3>${a.titulo}</h3>
+
+                        <div class="activity-info">
+                            <i class="fas fa-book"></i>
+                            <span><strong>Disciplina:</strong> ${a.disciplina}</span>
+                        </div>
+                        
+                        <div class="activity-info">
+                            <i class="fas fa-user-tie"></i>
+                            <span><strong>Professor:</strong> ${a.professor}</span>
+                        </div>
+                        
+                        <div class="activity-info">
+                            <i class="fas fa-calendar"></i>
+                            <span><strong>Data de Entrega:</strong> ${dataEntrega.toLocaleDateString('pt-BR')} às ${dataEntrega.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}</span>
+                        </div>
+                        
+                        <div class="activity-info">
+                            <i class="fas fa-star"></i>
+                            <span><strong>Pontuação Máxima:</strong> ${a.pontuacao_maxima}</span>
+                        </div>
+
+                        ${a.descricao ? `
+                            <div class="activity-description">
+                                <strong><i class="fas fa-info-circle"></i> Descrição:</strong><br>
+                                ${a.descricao}
+                            </div>
+                        ` : ''}
+
+                        <span class="activity-status ${statusClass}">${statusText}</span>
+
+                        ${a.status_resposta === 'corrigida' && a.nota !== null ? `
+                            <div class="activity-grade">
+                                <i class="fas fa-trophy"></i> Nota: ${a.nota} / ${a.pontuacao_maxima}
+                            </div>
+                        ` : ''}
+
+                        ${a.feedback ? `
+                            <div class="activity-feedback">
+                                <strong><i class="fas fa-comment"></i> Feedback do Professor:</strong><br>
+                                ${a.feedback}
+                            </div>
+                        ` : ''}
+
+                        ${!a.respondida ? `
+                            <button class="btn-enviar" onclick="abrirModal(${a.id})">
+                                <i class="fas fa-paper-plane"></i>
+                                Enviar Resposta
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        } catch (e) {
+            console.error('Erro ao carregar atividades:', e);
+            document.getElementById('atividadesContainer').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Erro ao carregar atividades</h3>
+                    <p>Tente novamente mais tarde.</p>
+                </div>
+            `;
+        }
+    }
+
+    function abrirModal(id) {
+        atividadeSelecionada = id;
+        arquivoSelecionado = null;
+        document.getElementById('respostaTexto').value = '';
+        document.getElementById('fileName').textContent = '';
+        document.getElementById('modalEnvio').classList.add('show');
+    }
+
+    function fecharModal() {
+        document.getElementById('modalEnvio').classList.remove('show');
+    }
+
+    document.querySelector('.modal-close').onclick = fecharModal;
+
+    document.getElementById('uploadArea').onclick = () => {
+        document.getElementById('fileInput').click();
+    };
+
+    document.getElementById('fileInput').onchange = (e) => {
+        arquivoSelecionado = e.target.files[0];
+        document.getElementById('fileName').textContent = arquivoSelecionado ? `📎 ${arquivoSelecionado.name}` : '';
+    };
+
+    const uploadArea = document.getElementById('uploadArea');
+    uploadArea.ondragover = e => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    };
+    uploadArea.ondragleave = () => uploadArea.classList.remove('dragover');
+    uploadArea.ondrop = e => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        arquivoSelecionado = e.dataTransfer.files[0];
+        document.getElementById('fileName').textContent = arquivoSelecionado ? `📎 ${arquivoSelecionado.name}` : '';
+    };
+
+    async function enviarResposta() {
+        const respostaTexto = document.getElementById('respostaTexto').value.trim();
+        
+        if (!respostaTexto && !arquivoSelecionado) {
+            alert('Por favor, escreva uma resposta ou envie um arquivo.');
+            return;
+        }
+
+        const arquivo_url = arquivoSelecionado ? `https://storage.magicnotes.com/${arquivoSelecionado.name}` : null;
+
+        try {
+            const response = await fetch(`${API_URL}/submissoes/enviar.php`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    atividade_id: atividadeSelecionada,
+                    usuario_id: usuarioData.id,
+                    resposta: respostaTexto || 'Arquivo enviado',
+                    arquivo_url: arquivo_url
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                fecharModal();
+                await carregarAtividades();
+                alert('✅ Atividade enviada com sucesso!');
+            } else {
+                alert('❌ ' + result.message);
+            }
+        } catch (e) {
+            console.error('Erro ao enviar:', e);
+            alert('❌ Erro ao enviar atividade. Tente novamente.');
+        }
+    }
+
+    document.getElementById('logoutBtn').onclick = (e) => {
+        e.preventDefault();
+        if (confirm('Deseja realmente sair?')) {
+            AuthManager.logout();
+        }
+    };
+
+    document.getElementById('userProfileBtn').onclick = (e) => {
+        e.preventDefault();
+        window.location.href = 'configuracoes.html';
+    };
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            sidebar.classList.toggle('active');
+        });
+    }
+
+    init();
+</script>
+
+</body>
+</html>

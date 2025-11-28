@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Aluno - Magic Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #93221F 0%, #c2312c 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #93221F;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        label .required {
+            color: #93221F;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #93221F;
+            box-shadow: 0 0 0 3px rgba(147, 34, 31, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: #93221F;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #c2312c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(147, 34, 31, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            display: block;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            display: block;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #93221F;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .info-box p {
+            color: #1976D2;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .debug-info {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Cadastro de Aluno</h1>
+            <p>Preencha os dados para cadastrar um novo aluno</p>
+        </div>
+
+        <div class="debug-info" id="debugInfo">
+            📍 API URL: <strong id="apiUrlDisplay"></strong>
+        </div>
+
+        <div class="info-box">
+            <p><strong>ℹ️ Informação:</strong> A senha padrão inicial será enviada por email ao aluno. Ele poderá alterá-la posteriormente no aplicativo.</p>
+        </div>
+
+        <div id="alertBox" class="alert"></div>
+
+        <form id="cadastroForm">
+            <div class="form-group">
+                <label>Nome Completo <span class="required">*</span></label>
+                <input type="text" id="nome" name="nome" required placeholder="Ex: João da Silva">
+            </div>
+
+            <div class="form-group">
+                <label>Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required placeholder="Ex: joao@email.com">
+            </div>
+
+            <div class="form-group">
+                <label>Telefone <span class="required">*</span></label>
+                <input type="tel" id="telefone" name="telefone" required placeholder="(11) 98765-4321">
+            </div>
+
+            <div class="form-group">
+                <label>Senha Inicial <span class="required">*</span></label>
+                <input type="password" id="senha" name="senha" required placeholder="Mínimo 6 caracteres">
+            </div>
+
+            <div class="form-group">
+                <label>Curso <span class="required">*</span></label>
+                <select id="curso_id" name="curso_id" required>
+                    <option value="">Carregando cursos...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Data de Matrícula</label>
+                <input type="date" id="data_matricula" name="data_matricula">
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Cadastrando aluno...</p>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btnSubmit">Cadastrar Aluno</button>
+        </form>
+    </div>
+
+    <script>
+        // ✅ CAMINHO CORRIGIDO DA API
+        const API_URL = 'http://localhost/MagicNotesApi/api';
+        
+        // Mostrar URL da API no debug
+        document.getElementById('apiUrlDisplay').textContent = API_URL;
+
+        // Carregar cursos ao iniciar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarCursos();
+            
+            // Definir data atual como padrão
+            const hoje = new Date().toISOString().split('T')[0];
+            document.getElementById('data_matricula').value = hoje;
+        });
+
+        // Função para carregar cursos
+        async function carregarCursos() {
+            const select = document.getElementById('curso_id');
+            
+            try {
+                console.log('Carregando cursos de:', `${API_URL}/cursos/list.php`);
+                
+                const response = await fetch(`${API_URL}/cursos/list.php`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                console.log('Status da resposta:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+                
+                const cursos = await response.json();
+                console.log('Cursos carregados:', cursos);
+                
+                // Limpar opções existentes
+                select.innerHTML = '<option value="">Selecione um curso</option>';
+                
+                if (cursos.length === 0) {
+                    select.innerHTML = '<option value="">Nenhum curso disponível</option>';
+                    mostrarAlerta('Nenhum curso encontrado. Cadastre cursos primeiro.', 'error');
+                    return;
+                }
+                
+                // Adicionar cursos ao select
+                cursos.forEach(curso => {
+                    const option = document.createElement('option');
+                    option.value = curso.id;
+                    option.textContent = `${curso.nome} - ${curso.instrumento} (${curso.nivel})`;
+                    select.appendChild(option);
+                });
+                
+                console.log('Cursos carregados com sucesso!');
+                
+            } catch (error) {
+                console.error('Erro ao carregar cursos:', error);
+                select.innerHTML = '<option value="">Erro ao carregar cursos</option>';
+                mostrarAlerta(`Erro ao carregar lista de cursos: ${error.message}`, 'error');
+            }
+        }
+
+        // Manipular envio do formulário
+        document.getElementById('cadastroForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btnSubmit = document.getElementById('btnSubmit');
+            const loading = document.getElementById('loading');
+            const alertBox = document.getElementById('alertBox');
+            
+            // Validações
+            const senha = document.getElementById('senha').value;
+            if (senha.length < 6) {
+                mostrarAlerta('A senha deve ter no mínimo 6 caracteres', 'error');
+                return;
+            }
+            
+            const cursoId = document.getElementById('curso_id').value;
+            if (!cursoId) {
+                mostrarAlerta('Por favor, selecione um curso', 'error');
+                return;
+            }
+            
+            // Coletar dados do formulário
+            const formData = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                senha: senha,
+                curso_id: parseInt(cursoId),
+                data_matricula: document.getElementById('data_matricula').value
+            };
+            
+            console.log('Enviando dados:', formData);
+            
+            // Mostrar loading
+            btnSubmit.disabled = true;
+            loading.classList.add('active');
+            alertBox.style.display = 'none';
+            
+            try {
+                const response = await fetch(`${API_URL}/user/cadastrar.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                console.log('Status da resposta:', response.status);
+                
+                const result = await response.json();
+                console.log('Resposta:', result);
+                
+                if (response.ok && result.success) {
+                    mostrarAlerta('✅ Aluno cadastrado com sucesso!', 'success');
+                    
+                    // Limpar formulário
+                    document.getElementById('cadastroForm').reset();
+                    
+                    // Definir data atual novamente
+                    const hoje = new Date().toISOString().split('T')[0];
+                    document.getElementById('data_matricula').value = hoje;
+                    
+                    // Recarregar lista de cursos
+                    setTimeout(() => {
+                        carregarCursos();
+                    }, 1000);
+                    
+                } else {
+                    mostrarAlerta(`❌ ${result.message || 'Erro ao cadastrar aluno'}`, 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarAlerta(`❌ Erro ao conectar com o servidor: ${error.message}`, 'error');
+            } finally {
+                btnSubmit.disabled = false;
+                loading.classList.remove('active');
+            }
+        });
+
+        // Função para mostrar alertas
+        function mostrarAlerta(mensagem, tipo) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = mensagem;
+            alertBox.className = `alert ${tipo}`;
+            alertBox.style.display = 'block';
+            
+            // Rolar para o topo para ver o alerta
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Auto-ocultar alertas de sucesso após 5 segundos
+            if (tipo === 'success') {
+                setTimeout(() => {
+                    alertBox.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Máscara para telefone
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

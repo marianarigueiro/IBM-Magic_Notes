@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Professor - Magic Notes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #f5f5f5;
+        }
+        .navbar {
+            background: #93221F;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar h1 {
+            font-size: 24px;
+        }
+        .navbar .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .navbar button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .navbar button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid #93221F;
+            color: #93221F;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .tab:hover, .tab.active {
+            background: #93221F;
+            color: white;
+        }
+        .content-section {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .content-section.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .btn {
+            padding: 12px 30px;
+            background: #93221F;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #c2312c;
+        }
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .alert.show {
+            display: block;
+        }
+        .atividade-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #93221F;
+        }
+        .atividade-card h4 {
+            color: #93221F;
+            margin-bottom: 10px;
+        }
+        .atividade-info {
+            color: #666;
+            font-size: 14px;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .atividade-info i {
+            color: #93221F;
+            width: 20px;
+        }
+        .submissao-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            transition: 0.3s;
+        }
+        .submissao-card:hover {
+            border-color: #93221F;
+        }
+        .submissao-card h5 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .status-enviada {
+            background: #cfe2ff;
+            color: #084298;
+        }
+        .status-corrigida {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+        .resposta-texto {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 3px solid #93221F;
+        }
+        .correcao-form {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #eee;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1><i class="fas fa-chalkboard-teacher"></i> Área do Professor</h1>
+        <div class="user-info">
+            <span id="professorNome">Carregando...</span>
+            <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="tabs">
+            <a style="text-decoration: none;" href="area-professor.html">
+            <button class="tab">
+                <i class="fas fa-file-import"></i> Início
+            </button>
+            </a>
+            <button class="tab active" onclick="showTab('atividades')">
+                <i class="fas fa-tasks"></i> Atividades
+            </button>
+            <button class="tab" onclick="showTab('submissoes')">
+                <i class="fas fa-file-import"></i> Submissões
+            </button>
+        </div>
+
+        <!-- ATIVIDADES -->
+        <div id="atividades" class="content-section active">
+            <h3><i class="fas fa-plus-circle"></i> Criar Nova Atividade</h3>
+            <div id="alertAtividade" class="alert"></div>
+            
+            <form id="formAtividade">
+                <div class="form-group">
+                    <label>Título da Atividade</label>
+                    <input type="text" id="ativTitulo" placeholder="Ex: Prática de Escalas" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Descrição</label>
+                    <textarea id="ativDescricao" placeholder="Descreva a atividade em detalhes..." required></textarea>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Disciplina</label>
+                        <select id="ativDisciplina" required>
+                            <option value="">Selecione uma disciplina</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pontuação Máxima</label>
+                        <input type="number" id="ativPontuacao" value="10" step="0.5" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Data e Hora de Entrega</label>
+                    <input type="datetime-local" id="ativData" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Link do Material (opcional)</label>
+                    <input type="url" id="ativLink" placeholder="https://drive.google.com/...">
+                </div>
+
+                <button type="submit" class="btn">
+                    <i class="fas fa-plus"></i> Criar Atividade
+                </button>
+            </form>
+
+            <h3 style="margin-top: 40px;"><i class="fas fa-list"></i> Suas Atividades</h3>
+            <div id="listAtividades"></div>
+        </div>
+
+        <!-- SUBMISSÕES -->
+        <div id="submissoes" class="content-section">
+            <h3><i class="fas fa-file-import"></i> Submissões de Alunos</h3>
+            <div id="alertSubmissao" class="alert"></div>
+            
+            <div id="listSubmissoes"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost/MagicNotesApi/api';
+        let professorData = null;
+        let atividadeSelecionada = null;
+
+        async function init() {
+            const token = localStorage.getItem('magic_notes_professor_token');
+            const professor = localStorage.getItem('magic_notes_professor');
+
+            if (!token || !professor) {
+                window.location.href = 'login-professor.html';
+                return;
+            }
+
+            try {
+                professorData = JSON.parse(professor);
+                document.getElementById('professorNome').textContent = professorData.nome;
+                await carregarDisciplinas();
+                await carregarAtividades();
+            } catch (e) {
+                console.error('Erro:', e);
+                logout();
+            }
+        }
+
+        async function carregarDisciplinas() {
+            try {
+                const response = await fetch(`${API_URL}/disciplinas/listar.php`);
+                const disciplinas = await response.json();
+                
+                const select = document.getElementById('ativDisciplina');
+                disciplinas.forEach(d => {
+                    const option = document.createElement('option');
+                    option.value = d.id;
+                    option.textContent = d.nome;
+                    select.appendChild(option);
+                });
+            } catch (e) {
+                console.error('Erro ao carregar disciplinas:', e);
+            }
+        }
+
+        async function carregarAtividades() {
+            try {
+                const response = await fetch(`${API_URL}/atividades/listar_professor.php?professor_id=${professorData.id}`);
+                const atividades = await response.json();
+                
+                const container = document.getElementById('listAtividades');
+                
+                if (!Array.isArray(atividades) || atividades.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;color:#999;padding:40px;">Nenhuma atividade criada ainda</p>';
+                    return;
+                }
+
+                container.innerHTML = atividades.map(a => {
+                    const dataEntrega = new Date(a.data_entrega);
+                    return `
+                        <div class="atividade-card">
+                            <h4>${a.titulo}</h4>
+                            <p style="color:#666;margin-bottom:12px;">${a.descricao}</p>
+                            
+                            <div class="atividade-info">
+                                <i class="fas fa-book"></i>
+                                <strong>Disciplina:</strong> ${a.disciplina_nome}
+                            </div>
+                            
+                            <div class="atividade-info">
+                                <i class="fas fa-calendar"></i>
+                                <strong>Entrega:</strong> ${dataEntrega.toLocaleDateString('pt-BR')} às ${dataEntrega.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}
+                            </div>
+                            
+                            <div class="atividade-info">
+                                <i class="fas fa-star"></i>
+                                <strong>Pontuação:</strong> ${a.pontuacao_maxima} pontos
+                            </div>
+                            
+                            <div class="atividade-info">
+                                <i class="fas fa-users"></i>
+                                <strong>Submissões:</strong> ${a.total_respostas} (${a.respostas_pendentes} pendentes, ${a.respostas_corrigidas} corrigidas)
+                            </div>
+                            
+                            <button class="btn btn-small" onclick="verSubmissoes(${a.id})" style="margin-top:12px;">
+                                <i class="fas fa-eye"></i> Ver Submissões (${a.total_respostas})
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Erro:', e);
+                document.getElementById('listAtividades').innerHTML = '<p style="color:#d32f2f;text-align:center;">Erro ao carregar atividades</p>';
+            }
+        }
+
+        async function verSubmissoes(atividade_id) {
+            atividadeSelecionada = atividade_id;
+            showTab('submissoes', false);
+            
+            try {
+                const response = await fetch(`${API_URL}/submissoes/listar_professor.php?atividade_id=${atividade_id}`);
+                const submissoes = await response.json();
+                
+                const container = document.getElementById('listSubmissoes');
+                
+                if (!Array.isArray(submissoes) || submissoes.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align:center;padding:60px;color:#999;">
+                            <i class="fas fa-inbox" style="font-size:48px;margin-bottom:15px;display:block;"></i>
+                            <h4>Nenhuma submissão ainda</h4>
+                            <p>Os alunos ainda não enviaram respostas para esta atividade.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = submissoes.map(s => {
+                    const dataEnvio = new Date(s.data_envio);
+                    const statusClass = s.status === 'corrigida' ? 'status-corrigida' : 'status-enviada';
+                    const statusText = s.status === 'corrigida' ? 'Corrigida' : 'Aguardando Correção';
+                    const statusIcon = s.status === 'corrigida' ? 'fa-check-circle' : 'fa-clock';
+                    
+                    return `
+                        <div class="submissao-card">
+                            <h5><i class="fas fa-user"></i> ${s.aluno_nome}</h5>
+                            
+                            <div class="atividade-info">
+                                <i class="fas fa-envelope"></i>
+                                ${s.aluno_email}
+                            </div>
+                            
+                            <div class="atividade-info">
+                                <i class="fas fa-calendar-check"></i>
+                                <strong>Enviado em:</strong> ${dataEnvio.toLocaleDateString('pt-BR')} às ${dataEnvio.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}
+                            </div>
+                            
+                            <div class="atividade-info">
+                                <span class="status-badge ${statusClass}">
+                                    <i class="fas ${statusIcon}"></i>
+                                    ${statusText}
+                                </span>
+                            </div>
+                            
+                            ${s.resposta ? `
+                                <div class="resposta-texto">
+                                    <strong style="display:block;margin-bottom:8px;color:#93221F;">
+                                        <i class="fas fa-comment-dots"></i> Resposta do Aluno:
+                                    </strong>
+                                    ${s.resposta}
+                                </div>
+                            ` : ''}
+                            
+                            ${s.arquivo_url ? `
+                                <a href="${s.arquivo_url}" target="_blank" class="btn btn-small" style="display:inline-flex;align-items:center;gap:8px;margin-top:10px;">
+                                    <i class="fas fa-download"></i> Baixar Arquivo
+                                </a>
+                            ` : ''}
+                            
+                            ${s.status === 'corrigida' ? `
+                                <div style="margin-top:15px;padding:15px;background:#e8f5e9;border-radius:6px;">
+                                    <div style="margin-bottom:8px;">
+                                        <strong style="color:#2e7d32;">
+                                            <i class="fas fa-trophy"></i> Nota: ${s.nota}/${s.pontuacao_maxima}
+                                        </strong>
+                                    </div>
+                                    ${s.feedback ? `
+                                        <div style="color:#555;">
+                                            <strong><i class="fas fa-comment"></i> Feedback:</strong>
+                                            <p style="margin-top:5px;">${s.feedback}</p>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            ` : `
+                                <div class="correcao-form">
+                                    <h6 style="margin-bottom:15px;color:#93221F;"><i class="fas fa-edit"></i> Corrigir Atividade</h6>
+                                    <div class="grid-2">
+                                        <div class="form-group">
+                                            <label>Nota (máx: ${s.pontuacao_maxima})</label>
+                                            <input type="number" id="nota-${s.id}" min="0" max="${s.pontuacao_maxima}" step="0.5" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Feedback</label>
+                                        <textarea id="feedback-${s.id}" placeholder="Deixe um comentário para o aluno..." rows="3"></textarea>
+                                    </div>
+                                    <button class="btn btn-small" onclick="corrigirSubmissao(${s.id}, ${s.pontuacao_maxima})">
+                                        <i class="fas fa-check"></i> Salvar Correção
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Erro:', e);
+                document.getElementById('listSubmissoes').innerHTML = '<p style="color:#d32f2f;text-align:center;">Erro ao carregar submissões</p>';
+            }
+        }
+
+        async function corrigirSubmissao(respostaId, pontuacaoMaxima) {
+            const nota = parseFloat(document.getElementById(`nota-${respostaId}`).value);
+            const feedback = document.getElementById(`feedback-${respostaId}`).value.trim();
+            
+            if (isNaN(nota) || nota < 0 || nota > pontuacaoMaxima) {
+                alert(`A nota deve estar entre 0 e ${pontuacaoMaxima}`);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/submissoes/corrigir.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        resposta_id: respostaId,
+                        nota: nota,
+                        feedback: feedback
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert('alertSubmissao', 'Atividade corrigida com sucesso!', 'success');
+                    await verSubmissoes(atividadeSelecionada);
+                    await carregarAtividades();
+                } else {
+                    showAlert('alertSubmissao', result.message || 'Erro ao corrigir', 'error');
+                }
+            } catch (e) {
+                console.error('Erro:', e);
+                showAlert('alertSubmissao', 'Erro ao conectar com servidor', 'error');
+            }
+        }
+
+        function showTab(tabName, updateButton = true) {
+            if (updateButton) {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                event.target.classList.add('active');
+            } else {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
+            }
+            
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function showAlert(alertId, message, type) {
+            const alert = document.getElementById(alertId);
+            alert.textContent = message;
+            alert.className = `alert ${type} show`;
+            
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        function logout() {
+            localStorage.removeItem('magic_notes_professor_token');
+            localStorage.removeItem('magic_notes_professor');
+            window.location.href = 'login-professor.html';
+        }
+
+        document.getElementById('formAtividade').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const data = {
+                titulo: document.getElementById('ativTitulo').value,
+                descricao: document.getElementById('ativDescricao').value,
+                disciplina_id: document.getElementById('ativDisciplina').value,
+                data_entrega: document.getElementById('ativData').value,
+                pontuacao_maxima: document.getElementById('ativPontuacao').value,
+                arquivo_url: document.getElementById('ativLink').value || null,
+                professor_id: professorData.id
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/atividades/criar.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('magic_notes_professor_token')}`
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showAlert('alertAtividade', 'Atividade criada com sucesso!', 'success');
+                    document.getElementById('formAtividade').reset();
+                    await carregarAtividades();
+                } else {
+                    showAlert('alertAtividade', result.message || 'Erro ao criar', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showAlert('alertAtividade', 'Erro ao conectar com servidor', 'error');
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>

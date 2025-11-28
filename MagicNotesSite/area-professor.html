@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área do Professor - Magic Notes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f5f5f5;
+    }
+
+    .navbar {
+      background: #93221F;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .navbar h1 {
+      font-size: 24px;
+    }
+
+    .navbar .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .navbar button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .navbar button:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .welcome h2 {
+      color: #93221F;
+      margin-bottom: 10px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 12px 25px;
+      background: white;
+      border: 2px solid #93221F;
+      color: #93221F;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+
+    .tab:hover, .tab.active {
+      background: #93221F;
+      color: white;
+    }
+
+    .content-section {
+      display: none;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #93221F;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      background: #93221F;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #c2312c;
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .alert {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .alert.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .list-item {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border-left: 4px solid #93221F;
+    }
+
+    .list-item h4 {
+      color: #93221F;
+      margin-bottom: 5px;
+    }
+
+    .list-item p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+      }
+
+      .tab {
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <h1><i class="fas fa-chalkboard-teacher"></i> Área do Professor</h1>
+    <div class="user-info">
+      <span id="professorNome">Carregando...</span>
+      <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="welcome">
+      <h2>Bem-vindo, <span id="welcomeName">Professor</span>!</h2>
+      <p>Gerencie comunicados, aulas, disciplinas e materiais</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('comunicados')">
+        <i class="fas fa-bullhorn"></i> Comunicados
+      </button>
+      <button class="tab" onclick="showTab('aulas')">
+        <i class="fas fa-desktop"></i> Aulas Digitais
+      </button>
+      <button class="tab" onclick="showTab('disciplinas')">
+        <i class="fas fa-book"></i> Disciplinas
+      </button>
+      <button class="tab" onclick="showTab('materiais')">
+        <i class="fas fa-file-lines"></i> Materiais
+      </button>
+      <a style="text-decoration: none;" href="atualizar-atividade-professor.html"><button class="tab" onclick="showTab('atividades')">
+      <i class="fas fa-tasks"></i> Atividades
+      </button></a>
+    </div>
+
+    <!-- COMUNICADOS -->
+    <div id="comunicados" class="content-section active">
+      <h3>Criar Comunicado</h3>
+      <div id="alertComunicado" class="alert"></div>
+      
+      <form id="formComunicado">
+        <div class="form-group">
+          <label>Título</label>
+          <input type="text" id="comTitulo" required>
+        </div>
+
+        <div class="form-group">
+          <label>Conteúdo</label>
+          <textarea id="comConteudo" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo</label>
+          <select id="comTipo">
+            <option value="geral">Geral</option>
+            <option value="urgente">Urgente</option>
+            <option value="informativo">Informativo</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn">Publicar Comunicado</button>
+      </form>
+    </div>
+
+    <!-- AULAS DIGITAIS -->
+    <div id="aulas" class="content-section">
+      <h3>Criar Aula Digital</h3>
+      <div id="alertAula" class="alert"></div>
+      
+      <form id="formAula">
+        <div class="form-group">
+          <label>Título da Aula</label>
+          <input type="text" id="aulaTitulo" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Data e Hora</label>
+            <input type="datetime-local" id="aulaData" required>
+          </div>
+
+          <div class="form-group">
+            <label>Duração (minutos)</label>
+            <input type="number" id="aulaDuracao" value="60" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Link da Reunião</label>
+          <input type="url" id="aulaLink" placeholder="https://meet.google.com/..." required>
+        </div>
+
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea id="aulaDescricao"></textarea>
+        </div>
+
+        <button type="submit" class="btn">Criar Aula</button>
+      </form>
+    </div>
+
+    <!-- DISCIPLINAS -->
+    <div id="disciplinas" class="content-section">
+      <h3>Criar Disciplina/Alerta</h3>
+      <div id="alertDisciplina" class="alert"></div>
+      
+      <form id="formDisciplina">
+        <div class="form-group">
+          <label>Nome da Disciplina</label>
+          <input type="text" id="discNome" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Tipo</label>
+            <select id="discTipo">
+              <option value="aula">Aula de Instrumento</option>
+              <option value="teoria">Teoria Musical</option>
+              <option value="historia">História da Música</option>
+              <option value="composicao">Composição</option>
+              <option value="improvisacao">Improvisação</option>
+              <option value="producao">Produção Musical</option>
+              <option value="pratica">Prática em Conjunto</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select id="discStatus">
+              <option value="nao_feita">Não feita</option>
+              <option value="em_breve">Em breve</option>
+              <option value="feita">Feita</option>
+              <option value="vencida">Vencida</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Descrição/Atividade</label>
+          <textarea id="discDescricao"></textarea>
+        </div>
+
+        <button type="submit" class="btn">Criar Disciplina</button>
+      </form>
+    </div>
+
+    <!-- MATERIAIS -->
+    <div id="materiais" class="content-section">
+      <h3>Adicionar Material</h3>
+      <div id="alertMaterial" class="alert"></div>
+      
+      <form id="formMaterial">
+        <div class="form-group">
+          <label>Título do Material</label>
+          <input type="text" id="matTitulo" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Tipo</label>
+            <select id="matTipo">
+              <option value="apostila">Apostila/PDF</option>
+              <option value="video">Vídeo</option>
+              <option value="audio">Áudio</option>
+              <option value="link">Link Externo</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Curso/Instrumento</label>
+            <input type="text" id="matCurso" placeholder="Ex: Guitarra">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Link/URL do Material</label>
+          <input type="url" id="matLink" placeholder="https://..." required>
+        </div>
+
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea id="matDescricao"></textarea>
+        </div>
+
+        <button type="submit" class="btn">Adicionar Material</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost/MagicNotesApi/api';
+    let professorData = null;
+
+    async function init() {
+      const token = localStorage.getItem('magic_notes_professor_token');
+      const professor = localStorage.getItem('magic_notes_professor');
+
+      if (!token || !professor) {
+        window.location.href = 'login-professor.html';
+        return;
+      }
+
+      try {
+        professorData = JSON.parse(professor);
+        document.getElementById('professorNome').textContent = professorData.nome;
+        document.getElementById('welcomeName').textContent = professorData.nome.split(' ')[0];
+      } catch (e) {
+        console.error('Erro ao carregar dados:', e);
+        logout();
+      }
+    }
+
+    function showTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById(tabName).classList.add('active');
+    }
+
+    function showAlert(alertId, message, type) {
+      const alert = document.getElementById(alertId);
+      alert.textContent = message;
+      alert.className = `alert ${type} show`;
+      
+      setTimeout(() => {
+        alert.classList.remove('show');
+      }, 5000);
+    }
+
+    function logout() {
+      localStorage.removeItem('magic_notes_professor_token');
+      localStorage.removeItem('magic_notes_professor');
+      window.location.href = 'login-professor.html';
+    }
+
+    // COMUNICADOS
+    document.getElementById('formComunicado').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const data = {
+        titulo: document.getElementById('comTitulo').value,
+        conteudo: document.getElementById('comConteudo').value,
+        tipo: document.getElementById('comTipo').value,
+        professor_id: professorData.id
+      };
+
+      try {
+        const response = await fetch(`${API_URL}/comunicados/criar.php`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('magic_notes_professor_token')}`
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showAlert('alertComunicado', 'Comunicado publicado com sucesso!', 'success');
+          document.getElementById('formComunicado').reset();
+        } else {
+          showAlert('alertComunicado', result.message || 'Erro ao publicar', 'error');
+        }
+      } catch (error) {
+        showAlert('alertComunicado', 'Erro ao conectar com servidor', 'error');
+      }
+    });
+
+    // AULAS
+    document.getElementById('formAula').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const data = {
+        titulo: document.getElementById('aulaTitulo').value,
+        data_inicio: document.getElementById('aulaData').value,
+        duracao_minutos: document.getElementById('aulaDuracao').value,
+        link_reuniao: document.getElementById('aulaLink').value,
+        descricao: document.getElementById('aulaDescricao').value,
+        professor_id: professorData.id
+      };
+
+      try {
+        const response = await fetch(`${API_URL}/aulas/criar.php`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('magic_notes_professor_token')}`
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showAlert('alertAula', 'Aula criada com sucesso!', 'success');
+          document.getElementById('formAula').reset();
+        } else {
+          showAlert('alertAula', result.message || 'Erro ao criar aula', 'error');
+        }
+      } catch (error) {
+        showAlert('alertAula', 'Erro ao conectar com servidor', 'error');
+      }
+    });
+
+    // DISCIPLINAS
+    document.getElementById('formDisciplina').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const data = {
+        nome: document.getElementById('discNome').value,
+        tipo: document.getElementById('discTipo').value,
+        status: document.getElementById('discStatus').value,
+        descricao: document.getElementById('discDescricao').value,
+        professor_id: professorData.id
+      };
+
+      try {
+        const response = await fetch(`${API_URL}/disciplinas/criar.php`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('magic_notes_professor_token')}`
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showAlert('alertDisciplina', 'Disciplina criada com sucesso!', 'success');
+          document.getElementById('formDisciplina').reset();
+        } else {
+          showAlert('alertDisciplina', result.message || 'Erro ao criar disciplina', 'error');
+        }
+      } catch (error) {
+        showAlert('alertDisciplina', 'Erro ao conectar com servidor', 'error');
+      }
+    });
+
+    // MATERIAIS
+    document.getElementById('formMaterial').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const data = {
+        titulo: document.getElementById('matTitulo').value,
+        tipo: document.getElementById('matTipo').value,
+        curso: document.getElementById('matCurso').value,
+        arquivo_url: document.getElementById('matLink').value,
+        descricao: document.getElementById('matDescricao').value,
+        professor_id: professorData.id
+      };
+
+      try {
+        const response = await fetch(`${API_URL}/materiais/criar.php`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('magic_notes_professor_token')}`
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showAlert('alertMaterial', 'Material adicionado com sucesso!', 'success');
+          document.getElementById('formMaterial').reset();
+        } else {
+          showAlert('alertMaterial', result.message || 'Erro ao adicionar material', 'error');
+        }
+      } catch (error) {
+        showAlert('alertMaterial', 'Erro ao conectar com servidor', 'error');
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de API - Magic Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #93221F 0%, #c2312c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #93221F;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            border-left: 4px solid #93221F;
+        }
+
+        .test-section h2 {
+            color: #93221F;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #93221F;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #c2312c;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .result.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .result.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            margin: 5px;
+        }
+
+        .status-ok {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-error {
+            background: #dc3545;
+            color: white;
+        }
+
+        .url-test {
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+
+        .url-test code {
+            color: #93221F;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Teste de Conexão API - Magic Notes</h1>
+
+        <!-- Teste 1: Estrutura de Pastas -->
+        <div class="test-section">
+            <h2>📁 Teste 1: Verificar Estrutura de Pastas</h2>
+            <p>Clique para testar diferentes URLs da API:</p>
+            
+            <div class="input-group">
+                <label>URL Base da API:</label>
+                <input type="text" id="apiUrl" value="http://localhost/MagicNotesApi/api" placeholder="http://localhost/MagicNotesApi/api">
+            </div>
+
+            <button onclick="testApiStructure()">Testar Estrutura</button>
+            <div id="structureResult" class="result info" style="display:none;"></div>
+        </div>
+
+        <!-- Teste 2: Cursos -->
+        <div class="test-section">
+            <h2>📚 Teste 2: Listar Cursos</h2>
+            <p>Testa o endpoint: <code>/cursos/list.php</code></p>
+            <button onclick="testCursos()">Testar Cursos</button>
+            <div id="cursosResult" class="result info" style="display:none;"></div>
+        </div>
+
+        <!-- Teste 3: Login -->
+        <div class="test-section">
+            <h2>🔐 Teste 3: Login</h2>
+            <p>Testa o endpoint: <code>/user/login.php</code></p>
+            
+            <div class="input-group">
+                <label>Email:</label>
+                <input type="email" id="loginEmail" value="carolina.santos@email.com">
+            </div>
+            
+            <div class="input-group">
+                <label>Senha:</label>
+                <input type="password" id="loginPassword" value="senha123">
+            </div>
+            
+            <button onclick="testLogin()">Testar Login</button>
+            <div id="loginResult" class="result info" style="display:none;"></div>
+        </div>
+
+        <!-- Teste 4: URLs Comuns -->
+        <div class="test-section">
+            <h2>🎯 Teste 4: Testar URLs Comuns</h2>
+            <p>Testa as URLs mais comuns para encontrar sua API:</p>
+            <button onclick="testCommonUrls()">Testar Todas URLs</button>
+            <div id="commonUrlsResult" class="result info" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        function getApiUrl() {
+            return document.getElementById('apiUrl').value.trim();
+        }
+
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `result ${type}`;
+            element.style.display = 'block';
+        }
+
+        async function testApiStructure() {
+            const apiUrl = getApiUrl();
+            const resultDiv = document.getElementById('structureResult');
+            
+            showResult('structureResult', '🔄 Testando estrutura...', 'info');
+            
+            const endpoints = [
+                '/user/login.php',
+                '/user/cadastrar.php',
+                '/user/validate.php',
+                '/cursos/list.php'
+            ];
+            
+            let results = `📊 Testando API URL: ${apiUrl}\n\n`;
+            let allOk = true;
+            
+            for (const endpoint of endpoints) {
+                const fullUrl = `${apiUrl}${endpoint}`;
+                results += `\n🔗 Testando: ${fullUrl}\n`;
+                
+                try {
+                    const response = await fetch(fullUrl, {
+                        method: endpoint.includes('login') || endpoint.includes('cadastrar') ? 'POST' : 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    
+                    const contentType = response.headers.get('content-type');
+                    
+                    results += `   Status: ${response.status}\n`;
+                    results += `   Content-Type: ${contentType}\n`;
+                    
+                    if (response.status === 404) {
+                        results += `   ❌ ARQUIVO NÃO ENCONTRADO!\n`;
+                        allOk = false;
+                    } else if (!contentType || !contentType.includes('application/json')) {
+                        results += `   ⚠️ Não retorna JSON\n`;
+                        const text = await response.text();
+                        results += `   Resposta: ${text.substring(0, 100)}...\n`;
+                    } else {
+                        results += `   ✅ OK - Retorna JSON\n`;
+                    }
+                } catch (error) {
+                    results += `   ❌ ERRO: ${error.message}\n`;
+                    allOk = false;
+                }
+            }
+            
+            results += `\n${allOk ? '✅ TODOS OS ENDPOINTS ENCONTRADOS!' : '❌ ALGUNS ENDPOINTS COM PROBLEMAS'}`;
+            
+            showResult('structureResult', results, allOk ? 'success' : 'error');
+        }
+
+        async function testCursos() {
+            const apiUrl = getApiUrl();
+            showResult('cursosResult', '🔄 Carregando cursos...', 'info');
+            
+            try {
+                const response = await fetch(`${apiUrl}/cursos/list.php`);
+                
+                let result = `📊 Resposta:\n`;
+                result += `Status: ${response.status}\n`;
+                result += `Content-Type: ${response.headers.get('content-type')}\n\n`;
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    result += `✅ Cursos encontrados: ${data.length}\n\n`;
+                    result += JSON.stringify(data, null, 2);
+                    showResult('cursosResult', result, 'success');
+                } else {
+                    const text = await response.text();
+                    result += `❌ Erro:\n${text}`;
+                    showResult('cursosResult', result, 'error');
+                }
+            } catch (error) {
+                showResult('cursosResult', `❌ ERRO: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLogin() {
+            const apiUrl = getApiUrl();
+            const email = document.getElementById('loginEmail').value;
+            const senha = document.getElementById('loginPassword').value;
+            
+            showResult('loginResult', '🔄 Testando login...', 'info');
+            
+            try {
+                const response = await fetch(`${apiUrl}/user/login.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha })
+                });
+                
+                let result = `📊 Resposta do Login:\n`;
+                result += `Status: ${response.status}\n`;
+                result += `Content-Type: ${response.headers.get('content-type')}\n\n`;
+                
+                const contentType = response.headers.get('content-type');
+                
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    result += `❌ Resposta não é JSON!\n\n`;
+                    result += `Conteúdo recebido:\n${text}`;
+                    showResult('loginResult', result, 'error');
+                    return;
+                }
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    result += `✅ LOGIN REALIZADO COM SUCESSO!\n\n`;
+                    result += `Token: ${data.token}\n\n`;
+                    result += `Usuário:\n${JSON.stringify(data.user, null, 2)}`;
+                    showResult('loginResult', result, 'success');
+                } else {
+                    result += `❌ Falha no login:\n${data.message}\n\n`;
+                    result += JSON.stringify(data, null, 2);
+                    showResult('loginResult', result, 'error');
+                }
+            } catch (error) {
+                showResult('loginResult', `❌ ERRO: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCommonUrls() {
+            showResult('commonUrlsResult', '🔄 Testando URLs comuns...', 'info');
+            
+            const commonUrls = [
+                'http://localhost/MagicNotesApi/api',
+                'http://localhost/api',
+                'http://localhost/MagicNotesApi/api',
+                'http://localhost/MagicNotesApi',
+                'http://127.0.0.1/MagicNotesApi/api',
+                'http://localhost:8080/MagicNotesApi/api'
+            ];
+            
+            let results = '📊 Testando URLs comuns:\n\n';
+            let foundUrls = [];
+            
+            for (const url of commonUrls) {
+                results += `🔗 ${url}/user/login.php\n`;
+                
+                try {
+                    const response = await fetch(`${url}/user/login.php`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    
+                    if (response.status !== 404) {
+                        results += `   ✅ ENCONTRADO! Status: ${response.status}\n`;
+                        foundUrls.push(url);
+                    } else {
+                        results += `   ❌ 404 - Não encontrado\n`;
+                    }
+                } catch (error) {
+                    results += `   ⚠️ Erro: ${error.message}\n`;
+                }
+                results += '\n';
+            }
+            
+            if (foundUrls.length > 0) {
+                results += `\n✅ URLs ENCONTRADAS:\n`;
+                foundUrls.forEach(url => {
+                    results += `   👉 ${url}\n`;
+                });
+                results += `\n💡 Use esta URL no seu código!`;
+                showResult('commonUrlsResult', results, 'success');
+            } else {
+                results += `\n❌ NENHUMA URL FUNCIONOU!\n\n`;
+                results += `📋 Verifique:\n`;
+                results += `1. Apache está rodando no XAMPP?\n`;
+                results += `2. A pasta MagicNotesApi existe no htdocs?\n`;
+                results += `3. O arquivo login.php existe em MagicNotesApi/api/user/?\n`;
+                showResult('commonUrlsResult', results, 'error');
+            }
+        }
+
+        // Auto-teste ao carregar
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('🔧 Página de teste carregada');
+            console.log('💡 Use os botões para testar a API');
+        });
+    </script>
+</body>
+</html>

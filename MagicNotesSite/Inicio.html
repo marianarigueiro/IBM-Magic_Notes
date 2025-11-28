@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Notes</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="Css/style.css">
+    <link rel="stylesheet" href="Css/Nav-Bar index.css" />
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="mobile-menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+            <ul class="nav-list">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="Matrícula.html">Enrollment</a></li>
+                <li><a href="area-aluno.html">Student Area</a></li>
+                <li><a href="#Partners">Partners</a></li>
+                <li><a href="#Courses-href">Courses</a></li>
+                <li><a href="#Contact.html">Contact</a></li>
+                <li><a href="#Support.html">Support</a></li>
+            </ul>
+            <a class="logo" href="home.html"><img src="Imagens/Logo_branco.png" alt="Logo" class="logo_img_branco"></a>
+            <a class="conta" href="Login.html"><img src="Imagens/user-branco.png" alt="account" class="conta_img_branco"></a>
+        </nav>
+    </header>
+    <script src="Javascript/mobile-navbar.js"></script>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="text-and-button">
+                    <h1>TRAINING NEW ARTISTS FOR A NEW WORLD</h1>
+                    <p>Transform your talent into music that enchants the world!</p>
+                    <a href="login.html" class="cta-button" style="text-decoration: none;">ENROLL NOW!</a>
+                </div>
+                <div class="image-container">
+                    <img src="Main-imgs/Hero-img.png" alt="A guitarist playing with neon lights">
+                </div>
+            </div>
+        </section>
+
+        <section class="carousel-section">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="Imagens/slider-1.jpg" class="d-block w-100" alt="Image Description 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Imagens/slider-2.jpg" class="d-block w-100" alt="Image Description 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Imagens/slider-piano-1.jpg" class="d-block w-100" alt="Image Description 3">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="instrument-section container">
+            <h2 class="text-center mb-5">Our Courses</h2>
+            <div class="row g-4">
+                
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <img src="Main-imgs/image 1.png" class="card-img-top mx-auto d-block mb-3" alt="Guitar">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Guitar</h5>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Guitar types and history</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Techniques and musical styles</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Classes for all levels</li>
+                            </ul>
+                            <a href="https://www.google.com/maps/search/Music+School/@-23.5504404,-46.4489193,15z?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-danger mt-3">View Available Schools</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <img src="Main-imgs/image 2.png" class="card-img-top mx-auto d-block mb-3" alt="Singing">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Singing</h5>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Singing types and history</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Techniques and musical styles</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Classes for all levels</li>
+                            </ul>
+                            <a href="https://www.google.com/maps/search/Music+School/@-23.5504404,-46.4489193,15z?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-danger mt-3">View Available Schools</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <img src="Main-imgs/image 3.png" class="card-img-top mx-auto d-block mb-3" alt="Piano">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Piano</h5>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Piano types and history</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Techniques and musical styles</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Classes for all levels</li>
+                            </ul>
+                            <a href="https://www.google.com/maps/search/Music+School/@-23.5504404,-46.4489193,15z?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-danger mt-3">View Available Schools</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <img src="Main-imgs/image 3.png" class="card-img-top mx-auto d-block mb-3" alt="Acoustic Guitar">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Acoustic Guitar</h5>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Acoustic guitar types and history</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Techniques and musical styles</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Classes for all levels</li>
+                            </ul>
+                            <a href="https://www.google.com/maps/search/Music+School/@-23.5504404,-46.4489193,15z?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-danger mt-3">View Available Schools</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <img src="Main-imgs/image 4.png" class="card-img-top mx-auto d-block mb-3" alt="Recorder">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Recorder</h5>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Recorder types and history</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Techniques and musical styles</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Classes for all levels</li>
+                            </ul>
+                            <a href="https://www.google.com/maps/search/Music+School/@-23.5504404,-46.4489193,15z?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-danger mt-3">View Available Schools</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <img src="Main-imgs/image 5.png" class="card-img-top mx-auto d-block mb-3" alt="Ukulele">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Ukulele</h5>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Ukulele types and history</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Techniques and musical styles</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Classes for all levels</li>
+                            </ul>
+                            <a href="https://www.google.com/maps/search/Music+School/@-23.5504404,-46.4489193,15z?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-danger mt-3">View Available Schools</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <img src="Main-imgs/image 6.png" class="card-img-top mx-auto d-block mb-3" alt="Bass">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Bass</h5>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Bass types and history</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Techniques and musical styles</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Classes for all levels</li>
+                            </ul>
+                            <a href="https://www.google.com/maps/search/Music+School/@-23.5504404,-46.4489193,15z?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-danger mt-3">View Available Schools</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <img src="Main-imgs/image 8.png" class="card-img-top mx-auto d-block mb-3" alt="Drums">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Drums</h5>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Drum types and history</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Techniques and musical styles</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Classes for all levels</li>
+                            </ul>
+                            <a href="https://www.google.com/maps/search/Music+School/@-23.5504404,-46.4489193,15z?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-danger mt-3">View Available Schools</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-3 h-100">
+                        <img src="Main-imgs/image 9.png" class="card-img-top mx-auto d-block mb-3" alt="Violin">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Violin</h5>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Violin types and history</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Techniques and musical styles</li>
+                                <li><i class="bi bi-circle-fill text-danger me-2"></i>Classes for all levels</li>
+                            </ul>
+                            <a href="https://www.google.com/maps/search/Music+School/@-23.5504404,-46.4489193,15z?entry=ttu&g_ep=EgoyMDI1MTAyOS4yIKXMDSoASAFQAw%3D%3D" class="btn btn-outline-danger mt-3">View Available Schools</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+  
+        <section class="testimonials-section container my-5">
+            <h2 class="text-center mb-5">TESTIMONIALS FROM OUR STUDENTS</h2>
+            <div class="testimonials-scroll-container">
+                
+                <div class="testimonial-card p-4 h-100 position-relative">
+                    <i class="bi bi-quote quote-icon"></i>
+                    <p class="fst-italic text-center">"The course changed my life! I always dreamed of playing, but I thought it wasn't for me. The teaching method is practical and inspiring, and the teachers are super attentive. Highly recommend!"</p>
+                    <div class="d-flex flex-column align-items-center mt-3">
+                        <img src="Imagens/usuario.png" class="rounded-circle mb-2" alt="Photo of Maria Eduarda">
+                        <div>
+                            <h6 class="mb-0 text-center">Maria Eduarda</h6>
+                            <p class="text-muted mb-0 text-center">Keyboard Student</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-4 h-100 position-relative">
+                    <i class="bi bi-quote quote-icon"></i>
+                    <p class="fst-italic text-center">"Best investment I made in my musical career. The course helped me improve my vocal skills and gave me the confidence to perform in public. Amazing!"</p>
+                    <div class="d-flex flex-column align-items-center mt-3">
+                        <img src="Imagens/usuario.png" class="rounded-circle mb-2" alt="Photo of Lucas Andrade">
+                        <div>
+                            <h6 class="mb-0 text-center">Lucas Andrade</h6>
+                            <p class="text-muted mb-0 text-center">Singer and Songwriter</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-4 h-100 position-relative">
+                    <i class="bi bi-quote quote-icon"></i>
+                    <p class="fst-italic text-center">"The guitar classes are sensational! The teachers explain everything clearly and helped me evolve very quickly. Now I play my favorite songs without difficulty."</p>
+                    <div class="d-flex flex-column align-items-center mt-3">
+                        <img src="Imagens/usuario.png" class="rounded-circle mb-2" alt="Photo of João Silva">
+                        <div>
+                            <h6 class="mb-0 text-center">João Silva</h6>
+                            <p class="text-muted mb-0 text-center">Guitar Student</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-4 h-100 position-relative">
+                    <i class="bi bi-quote quote-icon"></i>
+                    <p class="fst-italic text-center">"The course changed my life! I always dreamed of playing, but I thought it wasn't for me. The teaching method is practical and inspiring, and the teachers are super attentive. Highly recommend!"</p>
+                    <div class="d-flex flex-column align-items-center mt-3">
+                        <img src="Imagens/usuario.png" class="rounded-circle mb-2" alt="Photo of Maria Eduarda">
+                        <div>
+                            <h6 class="mb-0 text-center">Maria Eduarda</h6>
+                            <p class="text-muted mb-0 text-center">Keyboard Student</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-4 h-100 position-relative">
+                    <i class="bi bi-quote quote-icon"></i>
+                    <p class="fst-italic text-center">"Best investment I made in my musical career. The course helped me improve my vocal skills and gave me the confidence to perform in public. Amazing!"</p>
+                    <div class="d-flex flex-column align-items-center mt-3">
+                        <img src="Imagens/usuario.png" class="rounded-circle mb-2" alt="Photo of Lucas Andrade">
+                        <div>
+                            <h6 class="mb-0 text-center">Lucas Andrade</h6>
+                            <p class="text-muted mb-0 text-center">Singer and Songwriter</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card p-4 h-100 position-relative">
+                    <i class="bi bi-quote quote-icon"></i>
+                    <p class="fst-italic text-center">"The guitar classes are sensational! The teachers explain everything clearly and helped me evolve very quickly. Now I play my favorite songs without difficulty."</p>
+                    <div class="d-flex flex-column align-items-center mt-3">
+                        <img src="Imagens/usuario.png" class="rounded-circle mb-2" alt="Photo of João Silva">
+                        <div>
+                            <h6 class="mb-0 text-center">João Silva</h6>
+                            <p class="text-muted mb-0 text-center">Guitar Student</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="partners-section container text-center my-5">
+            <h2 class="mb-5">OUR PARTNERS</h2>
+            <div class="partners-wrapper">
+                <div class="partners-container" id="partnersContainer">
+                    <div class="partners-slide">
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-4 col-md-2">
+                                <img src="Imagens/Band Live Rock.png" class="img-fluid" alt="Marc Band Logo">
+                                <p class="mt-2 text-muted">Marc Band</p>
+                            </div>
+                            <div class="col-4 col-md-2">
+                                <img src="Imagens/Walk-Band.jpg" class="img-fluid" alt="Notedania Logo">
+                                <p class="mt-2 text-muted">Walk-Band</p>
+                            </div>
+                            <div class="col-4 col-md-2">
+                                <img src="Imagens/Star Maker.jpeg" class="img-fluid" alt="David Live Music Logo">
+                                <p class="mt-2 text-muted">Star Maker</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partners-slide">
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-4 col-md-2">
+                                <img src="Imagens/Riyaz.png" class="img-fluid" alt="Partner Logo 4">
+                                <p class="mt-2 text-muted">Riyaz 4</p>
+                            </div>
+                            <div class="col-4 col-md-2">
+                                <img src="Imagens/Google.png" class="img-fluid" alt="Partner Logo 5">
+                                <p class="mt-2 text-muted">Google</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="partners-dots mt-4">
+                <span class="dot active" data-slide="0"></span>
+                <span class="dot" data-slide="1"></span>
+            </div>
+        </section>
+
+        <section class="contact-section container text-center my-5">
+            <h2 class="mb-5">CONTACT US</h2>
+            <div class="row g-4 justify-content-center">
+                <div class="col-4 col-md-3">
+                    <div class="contact-card p-4 h-100">
+                        <i class="bi bi-instagram fs-1"></i>
+                        <h5 class="mt-3">Instagram</h5>
+                    </div>
+                </div>
+                <div class="col-4 col-md-3">
+                    <div class="contact-card p-4 h-100">
+                        <i class="bi bi-whatsapp fs-1"></i>
+                        <h5 class="mt-3">WhatsApp</h5>
+                    </div>
+                </div>
+                <div class="col-4 col-md-3">
+                    <div class="contact-card p-4 h-100">
+                        <i class="bi bi-envelope fs-1"></i>
+                        <h5 class="mt-3">E-mail</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="schools-section container text-center my-5">
+            <h2 class="mb-5">AVAILABLE SCHOOLS</h2>
+            <img src="Imagens/maps.png" alt="School map" class="img-fluid rounded" style="box-shadow: 0 0 25px #93221f;">
+        </section>
+
+        <section class="plans-section container text-center my-5">
+            <h2 class="mb-5">AVAILABLE PLANS</h2>
+            <div class="row g-4 justify-content-center">
+                
+                <div class="col-md-4">
+                    <div class="plan-card p-4 h-100">
+                        <h4 class="mb-2">PLUS Academy Music</h4>
+                        <p class="plan-description">
+                            Perfect for those who want to start with everything! Learn at your own pace with access to all courses and full support.
+                        </p>
+                        <div class="price-box my-4">
+                            <span>12x</span> 
+                            <h3 class="price">$109</h3>
+                        </div>
+                        <a href="login.html" class="btn btn-danger btn-enroll mt-3">ENROLL NOW!</a>
+                        <div class="plan-benefits text-start mt-4">
+                            <h6>Subscribe to PLUS and get:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Access to all courses for 1 year</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Completion certificates</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Group mentoring with experts</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Exclusive student community</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="plan-card p-4 h-100">
+                        <h4 class="mb-2">PRO Academy Music</h4>
+                        <p class="plan-description">
+                            For musicians who want to go further. Get everything from the PLUS plan with tools, mentoring and extra benefits to accelerate your growth.
+                        </p>
+                        <div class="price-box my-4">
+                            <span>12x</span> 
+                            <h3 class="price">$149</h3>
+                        </div>
+                        <a href="#" class="btn btn-danger btn-enroll mt-3">ENROLL NOW!</a>
+                        <div class="plan-benefits text-start mt-4">
+                            <h6>All PLUS benefits plus:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Access to Magic, Magic Notes' artificial intelligence</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Personalized feedback on your progress</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Exclusive workshops and masterclasses</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Discounts on events and advanced courses</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>PRO mentoring closed group</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="plan-card p-4 h-100">
+                        <h4 class="mb-2">ULTRA Academy Music</h4>
+                        <p class="plan-description">
+                            The complete experience for those who live music. Unlimited resources, advanced artificial intelligence and exclusive premium advantages.
+                        </p>
+                        <div class="price-box my-4">
+                            <span>12x</span> 
+                            <h3 class="price">$229</h3>
+                        </div>
+                        <a href="#" class="btn btn-danger btn-enroll mt-3">ENROLL NOW!</a>
+                        <div class="plan-benefits text-start mt-4">
+                            <h6>All PRO benefits plus exclusive advantages:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Magic with unlimited messages</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Magic Vision, the AI that sees your questions</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>6 eBooks from Casa do Código</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>Talent Lab — real opportunities and projects</li>
+                                <li><i class="bi bi-check-circle-fill me-2"></i>24h priority support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="faq-section container text-center my-5">
+            <h2 class="mb-5">FREQUENTLY ASKED QUESTIONS</h2>
+            <div class="accordion faq-container" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            How do the classes work?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Classes are personalized for each student, focused on practice and your musical development.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Do I need to have the instrument to start?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            It's not mandatory, but it's recommended so you can practice at home.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            What if I need to miss a class?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            You can reschedule your class, as long as you notify us 24 hours in advance.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container py-5">
+            <div class="row text-white text-center text-md-start">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-4">Company</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Our Services</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Team Collaboration</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-4">Get Help</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">FAQ</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Shipping</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Returns</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Plan Status</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Payment Options</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-4">
+                    <h5 class="text-uppercase mb-4">Follow Us</h5>
+                    <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-3"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-3"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-linkedin fs-3"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center py-3">
+            <p class="mb-0 text-white">&copy; 2025 Magic Notes. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="Javascript/main.js"></script>
+  
+</body>
+
+</html>
